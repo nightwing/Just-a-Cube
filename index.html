@@ -6,9 +6,6 @@
 		<meta name="description" content="A rubik's cube solver.">
 		<link rel="icon" type="image/png" href="assets/favicon.svg">
 
-		<!------ FONT ------>
-		<link href='https://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
-
 		<!------ CSS ------>
 		<link rel="stylesheet" type="text/css" href="lib/cuber/css/cube.css">
 		<link rel="stylesheet" type="text/css" href="cube/css/style.css">
@@ -58,60 +55,145 @@
 		<script type="text/javascript" src="lib/cuber/js/renderer.js"></script>
 
 		<!-- implementation -->
-		<script type="text/javascript" src="lib/cuber/js/jquery-3.4.0.min.js"></script>
+		<!-- <script type="text/javascript" src="lib/cuber/js/jquery-3.4.0.min.js"></script>
 		<script type="text/javascript" src="lib/cuber/js/extras/renderers/iecss3d.js"></script>
-		<script type="text/javascript" src="lib/cuber/js/extras/renderers/ierenderer.js"></script>
+		<script type="text/javascript" src="lib/cuber/js/extras/renderers/ierenderer.js"></script>-->
 		<script type="text/javascript" src="lib/cuber/js/extras/controls/locked.js"></script>
 		<script type="text/javascript" src="lib/cuber/js/extras/deviceMotion.js"></script>
 
-		<!-- Two-phase Algorithm  -->
+		<!-- Two-phase Algorithm  -- >
 		<script type="text/javascript" src="lib/cubejs/cube.js"></script>
 		<script type="text/javascript" src="lib/cubejs/solve.js"></script>
 
-		<!-- Typewriting Plugin -->
+		<!-- Typewriting Plugin -- >
 		<script type="text/javascript" src="lib/typewriting/typewriting.js"></script>
 
 		<!-- Just a Cube -->
 		<script type="text/javascript" src="cube/js/initial.js"></script>
 		<script type="text/javascript" src="cube/js/util.js"></script>
 		<script type="text/javascript" src="cube/js/lbl.js"></script>
-		<script type="text/javascript" src="cube/js/two-phase.js"></script>
+		<!-- <script type="text/javascript" src="cube/js/two-phase.js"></script> -->
 	</head>
 
 	<body>
-		<div id="container"></div>
-    <div class="type">
-		  <div id="terminal"></div>
+		<div id="container"></div>    
+        <div class="history">
+			<div>
+                <button onclick="cubeGL.undo()">Undo</button>
+                <button onclick="cubeGL.redo()">Redo</button><br>
+            </div>
+            <div class="solution" onclick="undoHistory(event)"></div>
+            <div class="shuffle"></div>
 		</div>
-    <div class="solve">
-			<button onclick="cubeGL.solve()">Solve | LBL</button>
-			<button onclick="solveTwoPhase()">Solve | Two-phase</button>
-			<button onclick="cubeShuffle()">Shuffle</button>
-			<button onclick="cubeReset()">Reset</button>
-      <a href="https://github.com/Renovamen/Just-a-Cube" target="_blank" rel="noreferrer">
-        <button>Github</button>
-      </a>
+        <div class="top-twist">
+         
+            <button onclick="cubeGL.twist('RUru');" title="HR=RUR'U'">HR</button>
+            <button onclick="cubeGL.twist('luLU');" title="HL=L'U'LU">HL</button>
+            
+            <button onclick="cubeGL.twist('URur');" title="IR=5HR=URU'R'">IR</button>
+            <button onclick="cubeGL.twist('ulUL');" title="IL=5HL=U'L'UL">IL</button> 
+            
+            <button onclick="cubeGL.twist('URUruYluLUy');" title="ER=U   HR  Y  HL  Y' middle to right">ER</button> 
+            <button onclick="cubeGL.twist('uluLUyRUruY');" title="EL=U'  HL  Y' HR  Y middle to left">EL</button>
+            
+            <button onclick="cubeGL.twist('RUruRUruRUruYluLUluLUluLUyu');" title="3HR Y 3HL Y' U' swap right corners">SE</button>
+            <br>
 		</div>
 		<div class="twist">
-			<h1>Rotate</h1>
+   			<button onclick="cubeShuffle()">Shuffle</button>
+            <button onclick="cubeReset()">Reset</button>
+            <br>
+
+			<!--<h1>Rotate</h1>-->
 			<button onclick="cubeGL.twist('U')">U</button>
-			<button onclick="cubeGL.twist('u')">u</button><br>
-			<button onclick="cubeGL.twist('D')">D</button>
-			<button onclick="cubeGL.twist('d')">d</button><br>
-			<button onclick="cubeGL.twist('F')">F</button>
-			<button onclick="cubeGL.twist('f')">f</button><br>
-			<button onclick="cubeGL.twist('B')">B</button>
-			<button onclick="cubeGL.twist('b')">b</button><br>
+			<button onclick="cubeGL.twist('u')">U'</button><br>
+            <button onclick="cubeGL.twist('R')">R</button>
+			<button onclick="cubeGL.twist('r')">R'</button><br>
 			<button onclick="cubeGL.twist('L')">L</button>
-			<button onclick="cubeGL.twist('l')">l</button><br>
-			<button onclick="cubeGL.twist('R')">R</button>
-			<button onclick="cubeGL.twist('r')">r</button>
+			<button onclick="cubeGL.twist('l')">L'</button><hr>
+             
+            <button onclick="cubeGL.twist('X')">X</button>
+            <button onclick="cubeGL.twist('x')">X'</button><br>
+            <button onclick="cubeGL.twist('Y')">Y</button>
+            <button onclick="cubeGL.twist('y')">Y'</button><br>
+            
+			<button onclick="cubeGL.twist('F')">F</button>
+			<button onclick="cubeGL.twist('f')">F'</button><hr>
+            
+            
+            
+			<button onclick="cubeGL.twist('D')">D</button>
+			<button onclick="cubeGL.twist('d')">D'</button><br>
+			<button onclick="cubeGL.twist('B')">B</button>
+			<button onclick="cubeGL.twist('b')">B'</button><br>
+			
 			<button onclick="cubeGL.twist('S')">S</button>
-			<button onclick="cubeGL.twist('s')">s</button>
+			<button onclick="cubeGL.twist('s')">S'</button><br>
 			<button onclick="cubeGL.twist('E')">E</button>
-			<button onclick="cubeGL.twist('e')">e</button>
+			<button onclick="cubeGL.twist('e')">E'</button><br>
 			<button onclick="cubeGL.twist('M')">M</button>
-			<button onclick="cubeGL.twist('m')">m</button>
+			<button onclick="cubeGL.twist('m')">M'</button><br>
+            
+            <h1>Solve</h1>
+            <button onclick="solveStep(1)">1</button>
+            <button onclick="solveStep(2)">2</button><br>
+            <button onclick="solveStep(3)">3</button>
+            <button onclick="solveStep(4)">4</button><br>
+            <button onclick="solveStep(5)">5</button>
+            <button onclick="solveStep(6)">6</button><br>
+            <button onclick="solveStep(7)">7</button>            
+            
+            
 		</div>
 	</body>
 </html>
+
+
+<!--
+
+solution guide
+
+white edges on yellow
+white cross 
+
+HR until white face is fixed 
+
+middle top edge to right
+U   HR  Y  HL  Y'
+middle top edge to left
+U'  HL  Y' HR  Y
+
+
+yellow cross 
+F HR F' 
+
+
+swap corners on right side
+3HR  Y  3HL
+
+
+solve yellow face 
+
+white up, bring yellow to bottom right corner HR 
+
+
+
+HR HL IR IL cycle 3 centers
+
+<!--
+
+
+toRight
+cubeGL.twist("U");cubeGL.twist("RUru");cubeGL.twist("Y");cubeGL.twist("luLU");cubeGL.twist("y");
+cubeGL.twist("u");cubeGL.twist("luLU");cubeGL.twist("y");cubeGL.twist("RUru");cubeGL.twist("Y");
+
+
+cubeGL.twist("RUru");cubeGL.twist("RUru");cubeGL.twist("RUru");
+cubeGL.twist("Y");
+cubeGL.twist("luLU");cubeGL.twist("luLU");cubeGL.twist("luLU");
+
+
+for (i=6*4+1;i--;)cubeGL.undo()
+
+F HR f
+-->

@@ -19,8 +19,8 @@ solver.logic = function(cube) {
 		6: "Third layer edges"
 	};
 
-	var terminal = document.getElementById("terminal");
-	var typewriter = new Typewriter(terminal);
+	/*var terminal = document.getElementById("terminal");
+	var typewriter = new Typewriter(terminal);*/
 
 	getCubeState()
 	solveCube();
@@ -28,7 +28,8 @@ solver.logic = function(cube) {
 
 	// ------------------ 执行并打印复原步骤 ------------------
 	function Execute(steps) {
-		for (let i = 0; i < steps.length; i++) {
+        console.log(steps);
+		/*for (let i = 0; i < steps.length; i++) {
 			step = steps[i];
 			if(step != "") {
 				cube.twist(step);
@@ -51,7 +52,7 @@ solver.logic = function(cube) {
 			}
 			console.log(step);
 			console.log(stepName[i] + " is already completed.");
-		}
+		}*/
 	}
 
 	// ------------------ 获得魔方当前状态 ------------------
@@ -612,7 +613,8 @@ solver.logic = function(cube) {
 		steps.push(THIRD_LAYER_CORNERS_POS());
 		steps.push(THIRD_LAYER_CORNERS_ORI());
 		steps.push(THIRD_LAYER_EDGES());
-		Execute(steps);
+        window.lblSteps = steps;
+		// Execute(steps);
 	};
 
 	// ------------------- 压缩指令数 -------------------
@@ -639,5 +641,5 @@ solver.logic = function(cube) {
 		return order;
 	}
 
-  return false;
+    return false;
 }

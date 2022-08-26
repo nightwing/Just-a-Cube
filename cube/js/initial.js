@@ -38,11 +38,7 @@
 */
 
 
-$(document).ready(function() {
-	// -------------------- cubejs --------------------
-	cubeTwoPhase = new Cube();
-	Cube.initSolver();
-
+window.addEventListener("load", function() {
 	// -------------------- cuber --------------------
 	var useLockedControls = true,
 		controls = useLockedControls ? ERNO.Locked : ERNO.Freeform;
@@ -80,8 +76,74 @@ $(document).ready(function() {
 	// motion.paused = false;				// disables the effect
 
 	cubeGL.twistDuration = 300;
-	cubeGL.twist('xY');
+	//cubeGL.twist('xY');
 	//cubeGL.shuffle();
 	//cubeGL.twist('d');
 	//cubeGL.solve();
+    
+    
+    cubeGL.addEventListener("onTwistComplete", function() {
+        var solutionSteps = cubeGL.twistQueue.history.map(x=>x.command)
+        
+        document.querySelector(".history>.solution").innerHTML = solutionSteps.map(x=>{
+            var lower = x.toLowerCase();
+            if (x == lower) x = x.toUpperCase() + "'";
+            return "<span style=color:" + (/[xyz]/i.test(x) ? "#c2f1c2" : (x.length == 2 ? "pink" : "") ) + ">" + x + "</span>"
+        }).reverse().join(", ")
+        
+        var shuffleSteps = shuffleString.split("");
+        document.querySelector(".history>.shuffle").innerHTML = shuffleSteps.map(x=>{
+            var lower = x.toLowerCase();
+            if (x == lower) x = x.toUpperCase() + "'";
+            return "<span style=color:" + (/[xyz]/i.test(x) ? "#c2f1c2" : (x.length == 2 ? "pink" : "") ) + ">" + x + "</span>";
+        }).reverse().join(", ")
+    })
+
 })
+
+var shuffleString = ""
+function cubeReset() {
+    // for (var i = cubeGL.twistQueue.history.length; i>=0;i--)cubeGL.undo()
+    shuffleString += cubeGL.twistQueue.history.map(x=>x.command).join("")
+  
+    var undoString = shuffleString.split("").map(x=>{
+        var lower = x.toLowerCase();
+        if (lower == x) 
+            return x.toUpperCase();
+        else
+            return lower;
+    }).reverse().join("");
+    cubeGL.twist(undoString);  
+}
+function cubeShuffle() {
+  cubeReset()
+  shuffleString = cubeGL.shuffle(25);
+}
+
+function solveStep(q) {
+    solver.logic(cubeGL)
+    for(var i = 0; i<q; i++){
+        lblSteps[i] && cubeGL.twist(lblSteps[i]);
+    }
+    console.log(lblSteps) 
+}
+
+
+function undoHistory(event) {
+    var target = event.target
+    var parent = target.parentElement
+    if (target.localName !== "span") return
+    var i = 0;
+    while (i < parent.children.length) {
+        if (parent.children[i] == target) {
+            undoMany(i);
+            break
+        }
+        i++
+    }
+}
+
+function undoMany(q) {
+    for(var i=q;i-->=0;)cubeGL.undo() 
+}
+

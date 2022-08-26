@@ -49,11 +49,10 @@ body {
 
 /* ------------------- solve buttons ------------------- */
 
-.solve {
+.history {
   position: absolute;
-  left: 80px;
-  top: 50%;
-  margin-top: -135px;
+  right: 10px;
+  top: 0;
   display: flex;
   flex-direction: column;
 }
@@ -66,29 +65,37 @@ body {
 /* ------------------- twist buttons ------------------- */
 .twist {
   position: absolute;
-  top: 50%;
-  right: 50px;
-  margin-top: -240px;
-	width: 190px;
+  top: 0;
+  left: 10px;
+  margin-top: 0;
+	width: auto;
+  height: 100%;
+  overflow: auto;
+}
+.top-twist {    
+  position: absolute;
+  top: 0;
+  left: 200px;
 }
 
 .twist h1 {
-	margin: 0 auto 15px;
-  text-align: center;
+	margin: 10px auto 2px;
+    text-align: center;
 	color: #ffffff;
 	font-size: 20px;
 }
 
-.twist button {
-  margin-bottom: 10px;
+button {
+  margin-top: 3px;
+  margin-bottom: 3px;
   margin-right: 10px;
 }
 
 /* ------------------- buttons ------------------- */
 
 button {
-	width:  80px;
-	height: 40px;
+    min-width: 70px;
+    height: 35px;
   color: #fff;
 	border-radius: 10px;
 	border: 2px solid;
@@ -97,7 +104,6 @@ button {
 	background: none;
 	outline: none;
 	cursor: pointer;
-	-webkit-transition: all .5s;
 	transition: all .5s;
 	overflow: hidden;
 	position: relative;
@@ -111,19 +117,16 @@ button:before, button:after {
 	width: 0;
 	top: 0;
 	background-color: #ffffff;
-	-webkit-transition: all .4s;
 	transition: all .4s;
 }
 
 button:before {
 	left: -15px;
-	-webkit-transform: skew(-45deg, 0);
 	transform: skew(-45deg, 0);
 }
 
 button:after {
 	right: -15px;
-	-webkit-transform: skew(-45deg, 0);
 	transform: skew(-45deg, 0);
 }
 
@@ -133,4 +136,34 @@ button:hover {
 
 button:hover:before, button:hover:after {
 	width: 80%;
+}
+
+
+*::-webkit-scrollbar {
+  width: 0.5em;
+}
+ 
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+*::-webkit-scrollbar-thumb {
+  background-color: darkgrey;
+  outline: 1px solid slategrey;
+}
+
+.history {
+    color: wheat;
+    width: 172px;
+    height: 100%;
+    overflow: auto;
+}
+
+
+.solution span {
+    cursor: pointer;
+}
+
+.solution span:hover {
+    text-decoration: underline;
 }
